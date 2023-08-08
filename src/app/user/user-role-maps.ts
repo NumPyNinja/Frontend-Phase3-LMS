@@ -1,4 +1,4 @@
 export interface UserRoleMaps {
-roleId?: string;
+  roleId?: string;
  userRoleStatus?: string;
 }

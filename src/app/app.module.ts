@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule ,APP_INITIALIZER} from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,6 +37,8 @@ import { SessionComponent } from './session/session/session.component';
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
 
 import { StudentComponent } from './student/student.component';
+import { UserloginComponent } from './userlogin/userlogin/userlogin.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 
 @NgModule({
@@ -56,8 +58,8 @@ import { StudentComponent } from './student/student.component';
     VerificationCodeComponent,
     ResetPasswordComponent,
     SessionComponent,
-    StudentComponent
-
+    StudentComponent,
+    UserloginComponent
   ],
 
   imports: [
@@ -79,7 +81,7 @@ import { StudentComponent } from './student/student.component';
     MessagesModule
     
   ],
-  providers: [AuthService, AuthGuard, MessageService, ConfirmationService],
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true},AuthService, AuthGuard, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

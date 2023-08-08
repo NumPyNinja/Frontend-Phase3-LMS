@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {  Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -18,27 +18,14 @@ export class UserService {
     return this.httpClient.get<User[]>(this.url+"/users/roles");
   }
 
-  getAllUsers(): Observable<any> {
+  getAllUsers(): Observable<User[]> {
     //return this.httpClient.get<any>('assets/Users.json')
     return this.httpClient.get<User[]>(this.url+"/users");
   }
 
-  addUser(userData:FormData){
-
-    return this.httpClient.post<any>(this.url+'/users/roleStatus',userData);
+  addUser(userData:any){
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post<any>(this.url+'/users/roleStatus',userData,{headers});
     
-  }
-
-  //addProgram(user: User): Observable<User> {
-    //user.online = true;
-    //return this.httpClient.post<User>(this.url, user);
- // }
-
-  editProgram(user: User) {
-   // return this.httpClient.put<User>(this.url + user.userId, user);
-  }
-
-  deleteProgram(user: User) {
-    //return this.httpClient.delete<User>(this.url + user.userId);
   }
 }

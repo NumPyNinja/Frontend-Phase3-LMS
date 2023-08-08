@@ -4,23 +4,40 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './../auth/auth.service';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { Login } from './login';
+import { LoginService } from './login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  login:Login[];
   form: FormGroup;
   private formSubmitAttempt: boolean;
   showErrorMessage: boolean = false;
+  responseData: any;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, 
+    private loginService:LoginService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
-      userName: ['', Validators.required],
+      userLoginEmailId: ['', Validators.required],
       password: ['', Validators.required],
     });
+    this.loginService.getLogin().subscribe((login:Login[])=>{
+      this.login=login;
+    })
+    // this.loginService.makeAuthenticatedRequest().subscribe(
+    //   (response) => {
+    //     this.responseData = response;
+    //     console.log('Response:', response);
+    //   },
+    //   (error) => {
+    //     console.error('Error:', error);
+    //   }
+    // );
   }
 
   isFieldInvalid(field: string) {
@@ -32,7 +49,11 @@ export class LoginComponent implements OnInit {
 
   async onSubmit() {
     if (this.form.valid) {
-     await this.authService.login(this.form.value);
+      const user = {
+        userLoginEmailId: this.form.value.userLoginEmailId,
+        password: this.form.value.password
+      };
+      this.authService.login(user);
     }
     this.formSubmitAttempt = true;
     this.validateCredentials();

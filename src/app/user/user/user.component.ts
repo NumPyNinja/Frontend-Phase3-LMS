@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import{User}from '../user';
 import { UserService } from '../user.service';
 import { ConfirmationService } from 'primeng/api';
@@ -20,31 +20,43 @@ export class UserComponent implements OnInit {
   submitted: boolean;
   userDialogue : boolean = false;
   viewUserDialogue:boolean=false;
-  //to save user profile picture
-  imageFile : any = File;
-  resumeFile : any = File;
   role = new FormControl();
-  userRoleMaps:string[]=['Admin','Staff','Student'];
+  userRoleMaps:string[]=['R01','R02','R03'];
+  roleStatus:string[]=['Active','Inactive'];
   userVisaStatus: string[] = ['Not-Specified', 'NA', 'GC-EAD', 'H4-EAD', 'H4', 'H1B', 
   'Canada-EAD', 'Indian-Citizen', 'US-Citizen', 'Canada-Citizen'];
-
+  userVisaStatusControl: FormControl;
+  visaStatusValue: string;
+  userRoleStatusControl: FormControl;
+  roleStatusValue:string;
+  userRoleMapsControl:FormControl;
+  userRoleMapsValue:string;
   constructor(private userService: UserService,private fb: FormBuilder,private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
  
   ngOnInit(): void { 
     this.getUserList();
+    this.userVisaStatusControl = new FormControl();
+    this.userVisaStatusControl.valueChanges.subscribe((val)=>{
+      console.log(val);
+       this.visaStatusValue=val;
+    });
+    this.userRoleStatusControl = new FormControl();
+    this.userRoleStatusControl.valueChanges.subscribe((val) => {
+      this.roleStatusValue = val;
+       });
+
   }
   private selectRow(checkValue: any) {
-  // console.log(checkValue);
+  
   }
-  private getUserList() {
-    this.visibility = true;
-    this.userService.getUsers().subscribe((res)=> {
-      this.users=res.userDetails;
-      this.visibility = false;
-    });
-    
-  }
+  private getUserList() { 
+    this.visibility = true;this.userService.getAllUsers().subscribe(users => {
+      this.users = users; 
+    this.visibility = false;
+   });
+   }
+
   viewUser(user: User) {
     this.user = { ...user };
     this.viewUserDialogue = true;
@@ -64,39 +76,31 @@ export class UserComponent implements OnInit {
     this.submitted = false;
     this.userDialogue = true;
   }
+    userForm = this.fb.group({
+      userComments: ['', Validators.required],
+      userEduPg: ['', Validators.required],
+      userEduUg: ['', Validators.required],
+      userFirstName: ['', Validators.required],
+      userLastName: ['', Validators.required],
+      userLinkedinUrl: ['', Validators.required],
+      userLocation: ['', Validators.required],
+      userMiddleName: [''],
+      userPhoneNumber: ['', Validators.required],
+      userTimeZone: ['', Validators.required],
+      userVisaStatus: ['', Validators.required],
+      userLogin: this.fb.group({
+        loginStatus: ['Active', Validators.required],
+        password: [''],
+        userLoginEmail: ['', [Validators.required, Validators.email]],
+      }),
+      userRoleMaps: this.fb.array([
+        this.fb.group({
+          roleId: ['',Validators.required],
+          userRoleStatus: ['',Validators.required],
+        })
+      ]),
+    });
 
-  userForm = this.fb.group({
-    userId:[],
-    userFirstName: [null, Validators.required],
-    userMiddleName: [null, Validators.required],
-    userLastName: [null, Validators.required],
-    emailAddress: [null, Validators.required],
-    userPhoneNumber: [null, Validators.required],
-    userLinkedinUrl: [null, Validators.required],
-    program: [null, Validators.required],
-    userEduUg: [null, Validators.required],
-    userEduPg: [null, Validators.required],
-    userTimeZone:[null, Validators.required],
-  //  skill: [null, Validators.required],
-  //  prevExp: [null, Validators.required],
-    experience: [null, Validators.required],
-    usercomments: [null, Validators.required],
-    fileType: [null, Validators.required],
-    location:[],
-    userRoleMaps: [null, Validators.required],
-  //  batch: [null, Validators.required],
-    userVisaStatus: [null, Validators.required],
-    userName: [null, Validators.required],
-    password: [null, Validators.required],
-  //  address: [null, Validators.required],
-   // city: [null, Validators.required],
-    //state: [null, Validators.required],
-    //postalCode: [null, Validators.compose([
-   //   Validators.required, Validators.minLength(5), Validators.maxLength(5)])
-   // ],
-   // shippig: ['free', Validators.required]
-
-  });
 
   hasUnitNumber = false;
 
@@ -163,14 +167,7 @@ export class UserComponent implements OnInit {
   ];
 
 
-  onSubmit1(): void {
-    console.log('this.userForm' + this.userForm);
-    this.userForm.value;
-
-    this.users.push(this.userForm.value);
-    alert('Thanks!');
-  }
-
+  
   editProgram(user: User) {
 
     console.log('Tesggggggg')
@@ -178,54 +175,44 @@ export class UserComponent implements OnInit {
     this.userDialogue = true;
    
   }
-
- 
+  visaStatusChanged(event: any) {
+    this.visaStatusValue = event.value;
+    
+  }
+  userRoleStatusChanged(value: string) {
+    this.userRoleStatusControl.setValue(value);
+  }
+  userRoleMapStatusChanged(value: string) {
+    
+  }
+  
   onSubmit() {
     this.submitted = true;
-
     if (this.userForm.value) {
       if (this.userForm.value.userId) {
 
         this.users[this.findIndexById(this.userForm.value.userId)] = this.userForm.value.userId;
-      //  this.users[this.findIndexById(this.userForm.u)]
-        // this.messageService.add({
-        //   severity: 'success',
-        //   summary: 'Successful',
-        //   detail: 'Program Updated',
-        //   life: 3000,
-        // });
-
-        // this.programService.editProgram(this.program).subscribe((res) => {
-        //   console.log('a program is updated')
-        // });
+      
       } else {
        console.log('hjgjhgjhg');
+       
+       
         this.userSize = this.userSize + 1;
         this.user.userId = this.userSize.toString();
-        //this.users.push(this.userForm.value);
-
-        // this.programService.addProgram(this.program).subscribe((res) => {
-        // });
-
-
-        // this.messageService.add({
-        //   severity: 'success',
-        //   summary: 'Successful',
-        //   detail: 'Program Created',
-        //   life: 3000,
-        // });
+        
       }
-        const userData = new FormData();
-        
-        userData.append("userInfo", JSON.stringify(this.userForm.value));
-        userData.append("imageFile", this.imageFile);
-        userData.append("resume",this.resumeFile);
-        
+      this.userForm.get('userLogin.loginStatus').setValue('Active');
+        const userData = this.userForm.value;
+        this.userForm.controls['userVisaStatus'].setValue(this.visaStatusValue);
+        const role=this.roleStatusValue;
+        this.userForm.get('userRoleMaps').get('0.userRoleStatus').setValue(role);
+        if (this.userForm.value && this.userForm.value.userPhoneNumber) {
+          this.userForm.value.userPhoneNumber = parseInt(this.userForm.value.userPhoneNumber, 11);
+        }
+
         this.userService.addUser(userData).subscribe({
           next:(res) => {
-            //alert("Patient added Successfully!");
             this.userForm.reset();
-            //this.userDialogue.close("Patient's details saved.");
             alert("User added successfully");
           },
          error:() =>
@@ -235,15 +222,14 @@ export class UserComponent implements OnInit {
           }
         })
 
-      //}
-
-      this.users = [...this.users];
+    
       this.userDialogue = false;
       this.user= {};
 
       
     }
   }
+  
   deleteSelectedUsers() {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete the selected Users?',
@@ -279,22 +265,6 @@ export class UserComponent implements OnInit {
       }
     }
     return index;
-  }
-
-  saveImage(event:any){
-   
-    const imageFile =event.target.files[0];
-        console.log(imageFile);
-        this.imageFile = imageFile;
-
-  }
-
-  saveFile(event:any){
-   
-    const file =event.target.files[0];
-        console.log(file);
-        this.resumeFile = file;
-
   }
 
 }

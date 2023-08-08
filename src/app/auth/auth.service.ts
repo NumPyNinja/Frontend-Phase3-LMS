@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { User } from './../user/user';
+import { HttpClient } from '@angular/common/http';
+import { Login } from '../login/login';
 
 @Injectable()
 export class AuthService {
+  // url: string = '/lms'
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
   loggedInUserId = this.loggedInUserSubject.asObservable();
@@ -14,24 +16,34 @@ export class AuthService {
   }
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
-
-  login(user: User) {
-    this.loggedIn.next(true);
-    this.loggedInUserSubject.next(user.userName);
-    if (user.userName === 'LMS' && user.password === 'LMS' ) {
-      this.loggedIn.next(true);
-      this.router.navigate(['/']);
-    }
-    else{
-      this.router.navigate(['/']);
-    }
-    this.loggedIn.next(true);
+  login(login: Login) {
+    this.http.post<any>('http://localhost:1234/lms/login', login).subscribe(
+      (response) => {
+        const token = response.token;
+        this.loggedIn.next(true);
+        this.loggedInUserSubject.next(login.userLoginEmailId);
+        localStorage.setItem('token', token);
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        // Handle login error
+        this.loggedIn.next(false);
+        this.router.navigate(['/login']);
+      }
+    );
   }
-
+  // isAuthenticated(): boolean {
+  //   const token = localStorage.getItem('token');
+  //   console.log(token);
+  //   return token !== null;
+  // }
+  
   logout() {
     this.loggedIn.next(false);
+    localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 }
