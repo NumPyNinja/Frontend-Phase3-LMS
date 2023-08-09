@@ -185,7 +185,7 @@ export class UserComponent implements OnInit {
   userRoleMapStatusChanged(value: string) {
     
   }
-  
+  //Code for adding new user
   onSubmit() {
     this.submitted = true;
     if (this.userForm.value) {
