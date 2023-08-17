@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule ,APP_INITIALIZER} from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,13 +25,13 @@ import { UserComponent } from './user/user/user.component';
 import { AssignmentComponent } from './assignment/assignment/assignment.component';
 import { AttendanceComponent } from './attendance/attendance/attendance.component';
 
-import {ListboxModule} from 'primeng/listbox';
+import { ListboxModule } from 'primeng/listbox';
 import { SignupComponent } from './login/sign-up/sign-up/sign-up.component';
 import { ClassComponent } from './class/class/class.component';
 import { ForgotPasswordComponent } from './login/forgot-password/forgot-password.component';
 import { VerificationCodeComponent } from './login/forgot-password/verification-code/verification-code.component';
 import { DropdownModule } from 'primeng/dropdown';
-import {MessagesModule} from 'primeng/messages';
+import { MessagesModule } from 'primeng/messages';
 import { SessionComponent } from './session/session/session.component';
 
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
@@ -39,6 +39,16 @@ import { ResetPasswordComponent } from './login/forgot-password/reset-password/r
 import { StudentComponent } from './student/student.component';
 import { UserloginComponent } from './userlogin/userlogin/userlogin.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { UserdataComponent } from './dashboard/userdata/userdata.component';
+import { StaffdataComponent } from './dashboard/staffdata/staffdata.component';
+import { AdmindataComponent } from './dashboard/admindata/admindata.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { WidgetdataComponent } from './dashboard/widgetdata/widgetdata.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 
 @NgModule({
@@ -59,7 +69,12 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     ResetPasswordComponent,
     SessionComponent,
     StudentComponent,
-    UserloginComponent
+    UserloginComponent,
+    DashboardComponent,
+    UserdataComponent,
+    StaffdataComponent,
+    AdmindataComponent,
+    WidgetdataComponent
   ],
 
   imports: [
@@ -78,10 +93,14 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MatCardModule,
     ListboxModule,
     DropdownModule,
-    MessagesModule
-    
+    MessagesModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDialogModule
+
+
   ],
-  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true},AuthService, AuthGuard, MessageService, ConfirmationService],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthService, AuthGuard, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
