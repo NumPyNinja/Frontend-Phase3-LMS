@@ -6,7 +6,7 @@
             <!--<fa-icon [icon]="faLocation"></fa-icon>-->
           </div>
           <div class="value">
-            <div class="top">1000</div>
+            <div class="top"> {{allUserC ? allUserC : 0 }}</div>
             <div class="bottom">User</div>
           </div>
         </div>
@@ -26,7 +26,7 @@
               <i class="pi pi-sitemap" style="font-size: 2rem"></i>
           </div>
           <div class="value">
-            <div class="top">100</div>
+            <div class="top">{{allBatchC ? allBatchC: 0 }}</div>
             <div class="bottom">Batches</div>
           </div>
         </div>
@@ -36,7 +36,7 @@
               <!--<fa-icon [icon]="faLocation"></fa-icon>-->
           </div>
           <div class="value">
-            <div class="top">20</div>
+            <div class="top">{{allProgramC ? allProgramC : 0}}</div>
             <div class="bottom">Programs</div>
           </div>
         </div>
