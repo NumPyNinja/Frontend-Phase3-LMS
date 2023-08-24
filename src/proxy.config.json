@@ -4,9 +4,10 @@
     "target":"https://lms-backend-service.herokuapp.com/",
 
     "pathRewrite": {
-      "^/api": "lms"
+      "^/api": "/lms"
     },
     "changeOrigin": true
   }
+  
 }
  
