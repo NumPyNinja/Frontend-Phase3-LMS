@@ -6,7 +6,7 @@ import { Login } from '../login/login';
 
 @Injectable()
 export class AuthService {
-  // url: string = '/lms'
+  url: string = '/apigit st'
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
   loggedInUserId = this.loggedInUserSubject.asObservable();
@@ -20,7 +20,7 @@ export class AuthService {
     private http: HttpClient
   ) {}
   login(login: Login) {
-    this.http.post<any>('http://localhost:1234/lms/login', login).subscribe(
+    this.http.post<any>(this.url+'/login', login).subscribe(
       (response) => {
         const token = response.token;
         this.loggedIn.next(true);
