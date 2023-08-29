@@ -12,7 +12,7 @@ export class AssignmentService {
 
   constructor(private httpClient: HttpClient) { }
   getAssignments(): Observable<Assignment[]> {
-    return this.httpClient.get<Assignment[]>(this.url + "assignments");
+    return this.httpClient.get<Assignment[]>(this.url +"/assignments");
   }
 
   saveAssignment(assigment: Assignment): Observable<Assignment> {
