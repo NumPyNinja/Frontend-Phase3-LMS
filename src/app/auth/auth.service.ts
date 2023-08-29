@@ -6,7 +6,7 @@ import { Login } from '../login/login';
 
 @Injectable()
 export class AuthService {
-  url: string = '/apigit st'
+  url: string = '/api'
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
   loggedInUserId = this.loggedInUserSubject.asObservable();
