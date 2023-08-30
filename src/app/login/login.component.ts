@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Login } from './login';
 import { LoginService } from './login.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,9 +18,10 @@ export class LoginComponent implements OnInit {
   private formSubmitAttempt: boolean;
   showErrorMessage: boolean = false;
   responseData: any;
+  public counter : number;//addded by jo for reset password functionality
 
   constructor(private fb: FormBuilder, private authService: AuthService, 
-    private loginService:LoginService) {}
+    private loginService:LoginService, private router: Router) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -29,6 +31,8 @@ export class LoginComponent implements OnInit {
     this.loginService.getLogin().subscribe((login:Login[])=>{
       this.login=login;
     })
+
+    this.counter=0;//Added for count password
     // this.loginService.makeAuthenticatedRequest().subscribe(
     //   (response) => {
     //     this.responseData = response;
@@ -60,10 +64,16 @@ export class LoginComponent implements OnInit {
   }
 
   private validateCredentials() {
-
-    this.authService.isLoggedIn.subscribe((isLoggedIn: boolean) =>{
+    this.authService.isLoggedIn.pipe(take(1)).subscribe((isLoggedIn: boolean) =>{
       if (!isLoggedIn) {
         this.showErrorMessage = true;
+        if(this.showErrorMessage){
+          this.counter++;  
+        }
+        if (this.counter===4){
+          window.location.href = '/reset-password';
+        }
+       
       }
     });
   }
