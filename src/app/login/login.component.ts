@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
         if(this.showErrorMessage){
           this.counter++;  
         }
-        if (this.counter===4){
+        if (this.counter>=3){
           window.location.href = '/reset-password';
         }
        
