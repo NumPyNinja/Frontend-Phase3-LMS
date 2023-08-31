@@ -10,14 +10,14 @@ import { User } from 'src/app/user/user';
 export class AdmindataComponent implements OnInit {
   userId: string = "";
   users:User[]=[];
-
+ 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     this.authService.loggedInUserId.subscribe((res) => {
       this.userId = res;
     });
-    
-  }
 
+  }
+   
 }

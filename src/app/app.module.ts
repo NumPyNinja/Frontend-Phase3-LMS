@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,13 +40,14 @@ import { StudentComponent } from './student/student.component';
 import { UserloginComponent } from './userlogin/userlogin/userlogin.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-import { UserdataComponent } from './dashboard/userdata/userdata.component';
 import { StaffdataComponent } from './dashboard/staffdata/staffdata.component';
 import { AdmindataComponent } from './dashboard/admindata/admindata.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { WidgetdataComponent } from './dashboard/widgetdata/widgetdata.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ChartsModule } from 'ng2-charts';
+import { DoughnutchartComponent } from './dashboard/doughnutchart/doughnutchart.component';
 
 
 
@@ -71,10 +72,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     StudentComponent,
     UserloginComponent,
     DashboardComponent,
-    UserdataComponent,
     StaffdataComponent,
     AdmindataComponent,
-    WidgetdataComponent
+    WidgetdataComponent,
+    DoughnutchartComponent
   ],
 
   imports: [
@@ -96,7 +97,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MessagesModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule, ChartsModule
 
 
   ],

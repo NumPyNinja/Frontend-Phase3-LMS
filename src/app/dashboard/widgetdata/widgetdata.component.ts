@@ -15,14 +15,30 @@ export class WidgetdataComponent implements OnInit {
   allUserC: number;
   allBatchC: number;
   allProgramC: number;
+  allStaffC:  number;
 
-  constructor(private dashboardService: DashboardService,
-    private userService: UserService,
+  constructor( private userService: UserService,
     private batchService: BatchService,
-    private programService: ProgramService) {
+    private programService: ProgramService,
+    private dashboardService : DashboardService) {
 
     this.userService.getAllUsers().subscribe(allU => {
       this.allUserC = allU.length;
+    })
+
+    this.userService.getAllStaff().subscribe(allS => {
+              var result = []
+              allS.forEach(item => {
+          let count = result.filter(x => x.userFirstName == item.userFirstName && x.userLastName == item.userLastName
+            && x.userPhoneNumber == item.userPhoneNumber).length
+  
+          if (count == 0) {
+            result.push(item)
+          }
+        })
+  
+        this.allStaffC = result.length;
+     
     })
 
     this.batchService.getBatchList().subscribe(allB => {
