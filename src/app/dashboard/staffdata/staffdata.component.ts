@@ -31,8 +31,6 @@ export class StaffdataComponent implements OnInit, AfterViewInit {
   constructor(private dialog: MatDialog, private userService: UserService) {
     this.userService.getAllStaff().subscribe(us => {
       this.staffData = us;
-
-
       var result = []
       this.staffData.forEach(item => {
         let count = result.filter(x => x.userFirstName == item.userFirstName && x.userLastName == item.userLastName

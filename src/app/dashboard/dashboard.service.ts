@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 
@@ -6,29 +7,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DashboardService {
+
+  url: string = '/api';//'https://lms-admin-rest-service.herokuapp.com/programs';
   // public staffData :User[]
   
-  // constructor(private userService: UserService) {}
+  constructor(private httpClient: HttpClient) { }
 
-  // public getUniqueStaffList(): User[]{
-  //  // var staffData :User[]
-  //   this.userService.getAllStaff().subscribe(us => {
-  //     this.staffData = us;
-  //     var result = []
-  //     this.staffData.forEach(item => {
-  //       let count = result.filter(x => x.userFirstName == item.userFirstName && x.userLastName == item.userLastName
-  //         && x.userPhoneNumber == item.userPhoneNumber).length
-  //       if (count == 0) {
-  //         result.push(item)
-  //       }
-  //     })
-  //      this.staffData = result;
-  //   })
-  //         return this.staffData;
-  // }
-
-  // public getStaffCount(): number{
-  //   return null
-  // }
-
+   getAllProgramsWithUsers() {
+    return this.httpClient.get(this.url + "//allProgramsWithUsers"); ///https://lms-phase2.herokuapp.com/lms/putprogram/1
+  }
 }
