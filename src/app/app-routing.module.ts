@@ -12,10 +12,14 @@ import { ForgotPasswordComponent } from './login/forgot-password/forgot-password
 import { ResetPasswordComponent } from './login/forgot-password/reset-password/reset-password.component';
 import { SessionComponent } from './session/session/session.component';
 import { StudentComponent } from './student/student.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { ProgramComponent } from './program/program/program.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent},
+  { path: 'program', component: ProgramComponent},
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignupComponent },
   { path: 'batch', component: BatchComponent, canActivate: [AuthGuard] },
