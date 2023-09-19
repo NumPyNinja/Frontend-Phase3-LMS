@@ -34,22 +34,29 @@ export class SessionComponent implements OnInit {
   sessionSize: number;
   visibility: boolean = false;
   batchId: number;
-  batchList: Batch[];
+  batchList: Batch[]=[];
   csId: string;
-  userList: User[];
+  userList: User[] = [];
   userId: string;
+  batchName: string
+  staffName: string
+
+
   constructor(private sessionService: SessionService,
     private userService: UserService,
     private batchService: BatchService, private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.getSessionList();
     this.batchService.getBatchList().subscribe(
       batList => { this.batchList = batList; })
     this.userService.getAllUsers().subscribe(
       user1List => { this.userList = user1List }
     )
+    this.getSessionList();
+    
+
+
   }
   openNew() {
     this.session = {};
@@ -88,12 +95,12 @@ export class SessionComponent implements OnInit {
           });
       } else {
         //add a new class
-          
-          this.sessionList.push(this.session);  
-          this.session.batchId=bat.batchId;
-          this.session.classStaffId=user1.userId;
-          this.sessionService.addSession(this.session).subscribe((res)=>{});
-  
+
+        this.sessionList.push(this.session);
+        this.session.batchId = bat.batchId;
+        this.session.classStaffId = user1.userId;
+        this.sessionService.addSession(this.session).subscribe((res) => { });
+
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -189,5 +196,22 @@ export class SessionComponent implements OnInit {
     });
   }
 
+
+
+  findBatchName(batchId: string) {
+    if(this.batchList.length !=0){
+  return this.batchList.filter(x => x.batchId == batchId)[0].batchName;
+    }
+  }
+
+  findStaffName(staffId: string) {
+    var nameUser: String;
+    var userdet: User={};
+    if(this.userList.length !=0){
+    userdet= this.userList.find(y =>  y.userId == staffId);
+    nameUser = userdet.userFirstName + '  ' + userdet.userLastName;
+    return nameUser;
+  }
+}
 
 }
