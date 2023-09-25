@@ -9,6 +9,7 @@ import { User } from 'src/app/user/user';
 import { UserService } from 'src/app/user/user.service';
 import { InputNumber } from 'primeng/inputnumber';
 import { Dropdown, DropdownItem } from 'primeng/dropdown';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-session',
@@ -40,9 +41,12 @@ export class SessionComponent implements OnInit {
   userId: string;
   batchName: string
   staffName: string
+  public selectedSession: Session;
+  public rowID: string;
+  dialogRef: any;
 
 
-  constructor(private sessionService: SessionService,
+  constructor(private dialog: MatDialog,private sessionService: SessionService,
     private userService: UserService,
     private batchService: BatchService, private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
@@ -212,6 +216,21 @@ export class SessionComponent implements OnInit {
     nameUser = userdet.userFirstName + '  ' + userdet.userLastName;
     return nameUser;
   }
+}
+
+onRowClicked(templateRef, row) {
+  
+  this.rowID = row['csId'];
+  this.selectedSession = this.sessionList.find((session) => session.csId.toString() == this.rowID);
+  this.dialogRef = this.dialog.open(templateRef, {
+    height: '550px',
+    width: '700px',
+  });
+}
+
+
+onCloseDialog() {
+  this.dialogRef.close();
 }
 
 }

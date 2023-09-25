@@ -40,22 +40,19 @@
 
                 <p-table #dt responsiveLayout="stack" [value]="sessionList" [rows]="5" [paginator]="true"
                 [globalFilterFields]="['batchName','classDescription',
-                'classTopic','classDate','classStaffName']"
+                'classTopic','classDate','classStaffName']"  
                 [(selection)]="selectedSessions" [rowHover]="true" dataKey="csId"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [showCurrentPageReport]="true">
+                [showCurrentPageReport]="true" >
 
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <!--   <th style="width: 6rem" pSortableColumn="csId"> Class Id <p-sortIcon field="csId"></p-sortIcon></th>-->
                         <th style="width: 6rem" pSortableColumn="batchName"> Batch Name <p-sortIcon
                                 field="batchName"></p-sortIcon></th>
 
-                        <!-- <th style="width: 6rem" pSortableColumn="classNo">Class No <p-sortIcon field="classNo"></p-sortIcon>
-                        </th> -->
                         <th style="width: 14rem" pSortableColumn="classDescription">Class Details <p-sortIcon
                                 field="classDescription"></p-sortIcon>
                         </th>
@@ -69,33 +66,20 @@
                         <th style="width: 10rem" pSortableColumn="classStaffName"> Staff Name <p-sortIcon
                                 field="classStaffName"></p-sortIcon></th>
 
-                        <!-- <th style="width: 10rem" pSortableColumn="classComments"> Comments <p-sortIcon field="classComments"></p-sortIcon></th>-->
-                        <!-- <th style="width: 10rem" pSortableColumn="classNotes"> Notes <p-sortIcon field="classNotes"></p-sortIcon></th>-->
-                        <!-- <th style="width: 8rem" pSortableColumn="classRecordingPath"> Recording <p-sortIcon field="classRecordingPath"></p-sortIcon></th>  -->
                         <th> Edit Delete</th>
-
-
-
                     </tr>
                 </ng-template>
 
                 <ng-template pTemplate="body" let-session>
-                    <tr>
-                        <td>
-                            <p-tableCheckbox [value]="session"></p-tableCheckbox>
-                        </td>
-                        <!-- <td>{{session.csId}}</td>-->
-                        <td>{{findBatchName(session.batchId)}}</td>
-                        <!-- <td>{{session.classNo}}</td>-->
-                        <td>{{session.classDescription}}</td>
-                        <td>{{session.classTopic}}</td>
-
-                        <td>{{session.classDate | date:'shortDate'}}</td>
-                        <!--  <td>{{session.classStaffId}}</td>-->
-                        <td>{{findStaffName(session.classStaffId)}}</td>
-                        <!--<td>{{session.classComments}}</td>-->
-                        <!--  <td>{{session.classNotes}}</td>-->
-                        <!-- <td>{{session.classRecordingPath}}</td>-->
+                    <tr >
+                      <td><p-tableCheckbox [value]="session"></p-tableCheckbox></td>
+                            
+                            <td (click)="onRowClicked(mytemplateSession,session)">{{findBatchName(session.batchId)}}</td>
+                            <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDescription}}</td>
+                            <td (click)="onRowClicked(mytemplateSession,session)">{{session.classTopic}}</td>
+                            <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDate | date:'shortDate'}}</td>
+                            <td (click)="onRowClicked(mytemplateSession,session)">{{findStaffName(session.classStaffId)}}</td>
+                                           
                         <td>
                             <div class="action">
                                 <span>
@@ -176,7 +160,7 @@
                 autofocus />
         </div>
 
-    </ng-template>
+    </ng-template >
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger"
             (click)="hideDialog()"></button>
@@ -187,3 +171,58 @@
 
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<ng-template #mytemplateSession>
+        <mat-card class="user-card">
+            <mat-card-content>
+              <div class="row">
+                <div class="col">
+                  <mat-card-title>No of Classes</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.classNo}}</mat-card-subtitle>
+                </div>
+                <div class="col">
+                  <mat-card-title>Class Date</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.classDate}}</mat-card-subtitle>
+                </div>
+              </div>
+              <div class="col">
+                <mat-card-title>Class Topic</mat-card-title>
+                <mat-card-subtitle>{{selectedSession.classTopic}}</mat-card-subtitle>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-card-title>Class Description</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.classDescription}}</mat-card-subtitle>
+                </div>
+                <div class="col">
+                  <mat-card-title>Class Comments</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.classComments}}</mat-card-subtitle>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-card-title>Class Notes</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.classNotes}}</mat-card-subtitle>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-card-title>Class Recording Path</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.classRecordingPath}}</mat-card-subtitle>
+                </div>
+                <!-- <div class="col">
+                  <mat-card-title>Session Status</mat-card-title>
+                  <mat-card-subtitle>{{selectedSession.sessionStatus}}</mat-card-subtitle>
+                </div> -->
+               
+              </div>
+        
+            </mat-card-content>
+            <mat-dialog-actions>
+              <button mat-button mat-dialog-close (click)="onCloseDialog()">Close</button>
+            </mat-dialog-actions>
+          </mat-card>
+      
+  
+  </ng-template>
+  
