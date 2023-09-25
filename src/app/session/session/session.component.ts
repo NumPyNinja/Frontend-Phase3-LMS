@@ -35,7 +35,7 @@ export class SessionComponent implements OnInit {
   sessionSize: number;
   visibility: boolean = false;
   batchId: number;
-  batchList: Batch[]=[];
+  batchList: Batch[] = [];
   csId: string;
   userList: User[] = [];
   userId: string;
@@ -46,7 +46,7 @@ export class SessionComponent implements OnInit {
   dialogRef: any;
 
 
-  constructor(private dialog: MatDialog,private sessionService: SessionService,
+  constructor(private dialog: MatDialog, private sessionService: SessionService,
     private userService: UserService,
     private batchService: BatchService, private messageService: MessageService,
     private confirmationService: ConfirmationService) { }
@@ -58,7 +58,7 @@ export class SessionComponent implements OnInit {
       user1List => { this.userList = user1List }
     )
     this.getSessionList();
-    
+
 
 
   }
@@ -200,37 +200,35 @@ export class SessionComponent implements OnInit {
     });
   }
 
-
-
   findBatchName(batchId: string) {
-    if(this.batchList.length !=0){
-  return this.batchList.filter(x => x.batchId == batchId)[0].batchName;
+    if (this.batchList.length != 0) {
+      return this.batchList.filter(x => x.batchId == batchId)[0].batchName;
     }
   }
 
   findStaffName(staffId: string) {
     var nameUser: String;
-    var userdet: User={};
-    if(this.userList.length !=0){
-    userdet= this.userList.find(y =>  y.userId == staffId);
-    nameUser = userdet.userFirstName + '  ' + userdet.userLastName;
-    return nameUser;
+    var userdet: User = {};
+    if (this.userList.length != 0) {
+      userdet = this.userList.find(y => y.userId == staffId);
+      nameUser = userdet.userFirstName + '  ' + userdet.userLastName;
+      return nameUser;
+    }
   }
-}
 
-onRowClicked(templateRef, row) {
-  
-  this.rowID = row['csId'];
-  this.selectedSession = this.sessionList.find((session) => session.csId.toString() == this.rowID);
-  this.dialogRef = this.dialog.open(templateRef, {
-    height: '550px',
-    width: '700px',
-  });
-}
+  onRowClicked(templateRef, row) {
+
+    this.rowID = row['csId'];
+    this.selectedSession = this.sessionList.find((session) => session.csId.toString() == this.rowID);
+    this.dialogRef = this.dialog.open(templateRef, {
+      height: '550px',
+      width: '700px',
+    });
+  }
 
 
-onCloseDialog() {
-  this.dialogRef.close();
-}
+  onCloseDialog() {
+    this.dialogRef.close();
+  }
 
 }
