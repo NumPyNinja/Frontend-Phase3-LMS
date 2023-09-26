@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailService } from './email.service';
+
 
 @Component({
   selector: 'app-forgot-password',
@@ -11,15 +13,18 @@ export class ForgotPasswordComponent implements OnInit {
 
   [x: string]: any;
   hide = true;
-  textInput = 'Link has sent on your registered email !!!';
+  successMsg = 'Link has been sent on your registered email.';
+  errorText = 'Mail id not found. Please enter a registered email id.'
+
   firstFormGroup: FormGroup;
   showError: boolean;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+  private emailService : EmailService) { }
+
   ngOnInit(): void {
 
     this.firstFormGroup = this.fb.group({
-
       email: ['', [Validators.required, Validators.email]]
     })
 
@@ -29,15 +34,23 @@ export class ForgotPasswordComponent implements OnInit {
       this.email.hasError('email') ? 'Please enter a valid email address' :
         '';
   }
+
   onClick() {
-    if (this.email.invalid) {
+    
+    if (this.email.invalid ) {
       this.showError = true;
     } else {
+     
       this.showError = false;
-      this.displayValue = this.textInput;
+      this.emailService.getEmail(this.email.value).subscribe((res)=>{
+       
+        this.displayValue = this.successMsg;
+      }, (error) => {
+         this.displayValue = this.errorText;
+      });
     }
   }
-
+  
   get email() { return this.firstFormGroup.get('email'); }
 
 
