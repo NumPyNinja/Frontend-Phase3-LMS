@@ -39,8 +39,7 @@
                 [showCurrentPageReport]="true"> -->
 
             <p-table #dt responsiveLayout="stack" [value]="sessionList" [rows]="5" [paginator]="true"
-                [globalFilterFields]="['batchName','classDescription',
-                'classTopic','classDate','classStaffName']" [(selection)]="selectedSessions" [rowHover]="true"
+                [globalFilterFields]="['batchName','classTopic','classDescription','classDate','classStaffName']" [(selection)]="selectedSessions" [rowHover]="true"
                 dataKey="csId" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
 
@@ -52,13 +51,12 @@
                         <th style="width: 6rem" pSortableColumn="batchName"> Batch Name <p-sortIcon
                                 field="batchName"></p-sortIcon></th>
 
-                        <th style="width: 14rem" pSortableColumn="classDescription">Class Details <p-sortIcon
-                                field="classDescription"></p-sortIcon>
-                        </th>
-
                         <th style="width: 10rem" pSortableColumn="classTopic">Class Topic <p-sortIcon
                                 field="classTopic">
                             </p-sortIcon>
+                        </th>
+                        <th style="width: 14rem" pSortableColumn="classDescription">Class Details <p-sortIcon
+                            field="classDescription"></p-sortIcon>
                         </th>
                         <th style="width: 10rem" pSortableColumn="classDate"> Class Date <p-sortIcon
                                 field="classDate"></p-sortIcon></th>
@@ -73,8 +71,8 @@
                     <tr>
                         <td><p-tableCheckbox [value]="session"></p-tableCheckbox></td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{findBatchName(session.batchId)}}</td>
-                        <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDescription}}</td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{session.classTopic}}</td>
+                        <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDescription}}</td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDate | date:'shortDate'}}
                         </td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{findStaffName(session.classStaffId)}}
@@ -181,7 +179,7 @@
                 </div>
                 <div class="col">
                     <mat-card-title>Class Date</mat-card-title>
-                    <mat-card-subtitle>{{selectedSession.classDate}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{selectedSession.classDate| date:'shortDate'}}</mat-card-subtitle>
                 </div>
             </div>
             <div class="col">
