@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Login } from '../../login';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -7,7 +10,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-  resetPassword : FormGroup;
+  resetPassword: FormGroup;
   formErrors = {
     'password': '',
     'rePassword': '',
@@ -16,24 +19,31 @@ export class ResetPasswordComponent implements OnInit {
   validationMessages = {
     'password': {
       'required': 'Password is required.',
-      'minlength': 'Password must be greater than or equal to 8 characters.',
-      'pattern' : 'Password must contain : 1 capital letter, 1 number & 1 special character.'
+      'minlength': 'Password must be at least 8 characters long.',
+      'pattern': 'Password must contain at least one capital letter, one number, and one special character.'
     },
     'rePassword': {
       'required': 'Password is required.'
     },
-    'passwordGroup':{
-      'mismatchPassword' : 'Both Passwords do not match.'
+    'passwordGroup': {
+      'mismatchPassword': 'Passwords do not match.'
     },
   };
   hasError = false;
+  token: any;
+  userLoginEmailId: any;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.token = this.route.snapshot.queryParamMap.get('token');
+    this.route.queryParams.subscribe((queryParams) => {
+      this.userLoginEmailId = queryParams['email']; // Replace 'email' with the actual query parameter name
+    });
+
     this.resetPassword = this.fb.group({
       passwordGroup: this.fb.group({
-        password: ['', [Validators.required,Validators.minLength(8), Validators.pattern("(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{2,}")]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.pattern("(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{2,}")]],
         rePassword: ['', Validators.required],
       }, { validator: matchPassword }),
     });
@@ -47,12 +57,11 @@ export class ResetPasswordComponent implements OnInit {
     Object.keys(group.controls).forEach((key: string) => {
       const abstractControl = group.get(key);
       this.formErrors[key] = '';
-      if (abstractControl && !abstractControl.valid
-        && (abstractControl.touched || abstractControl.dirty)) {
+      if (abstractControl && !abstractControl.valid && (abstractControl.touched || abstractControl.dirty)) {
         const messages = this.validationMessages[key];
         for (const errorKey in abstractControl.errors) {
           if (errorKey) {
-            this.hasError = true
+            this.hasError = true;
             this.formErrors[key] += messages[errorKey] + ' ';
           }
         }
@@ -64,12 +73,24 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   onSubmit() {
-    // resetting the value of hasErrror to false
+    // Resetting the value of hasError to false
     this.hasError = false;
     this.logValidationErrors();
-    if(!this.hasError){
-      // write code for submit here
-      console.log(this.resetPassword.value.passwordGroup);
+    if (!this.hasError) {
+      
+      const newPassword = this.resetPassword.get('passwordGroup.password').value;
+      const resetDto: Login = {
+        userLoginEmailId: this.userLoginEmailId,
+        password: newPassword 
+      };
+      this.authService.resetPassword(resetDto, this.token).subscribe(
+        () => {
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          console.error('Password reset error:', error);
+        }
+      );
     }
   }
 }
