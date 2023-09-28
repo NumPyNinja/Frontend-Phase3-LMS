@@ -36,19 +36,22 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onClick() {
-    
-    if (this.email.invalid ) {
+     if (this.email.invalid ) {
       this.showError = true;
     } else {
-     
       this.showError = false;
       this.emailService.getEmail(this.email.value).subscribe((res)=>{
-       
         this.displayValue = this.successMsg;
       }, (error) => {
          this.displayValue = this.errorText;
       });
     }
+  }
+
+  public resetform(): void {
+    this.firstFormGroup.reset();
+    this.displayValue=""; 
+    this.showError=false;
   }
   
   get email() { return this.firstFormGroup.get('email'); }
