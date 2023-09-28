@@ -73,6 +73,13 @@
       justify-content: space-between;
       //  color: red;
     }
+
+    .action1 {
+     
+      width: 400rem
+      
+      //  color: red;
+    }
   
   }
   
@@ -146,4 +153,16 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+  }
+
+  mat-card-title {
+    max-width: 100%;
+    font-size: medium;
+    text-align: left;
+  }
+
+  mat-card-subtitle {
+    max-width: 100%;
+    font-style: bold;
+    text-align: right;
   }
