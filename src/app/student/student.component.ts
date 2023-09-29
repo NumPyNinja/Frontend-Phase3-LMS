@@ -37,7 +37,7 @@ export class StudentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe((data)=>{
+    this.userService.getAllStudents().subscribe((data)=>{
       this.users = data;
     });
     this.batchService.getBatchList().subscribe((data)=>{
@@ -59,21 +59,21 @@ export class StudentComponent implements OnInit {
     this.displayUploadAssignmentDialog = false;
   }
 
-  uploadAssignment() {
-    const uploadedAssignment: UploadedAssignment = {
-      filePath: this.inputFilePath,
-      assignmentId: this.selectedUploadAssignment.assignmentId,
-      uploadDate: new Date(),
-      uploadUser: this.userId
-    };
-    this.assignmentService.uploadAssignments(uploadedAssignment).subscribe((res) => {
-      this.inputFilePath = "";
-      this.selectedUploadAssignment = undefined;
-      this.closePopup();
-      this.message1 = [
-        { severity: 'success', summary: 'Filepath Uploaded Successfully', detail: '' }];
-    });
-  }
+  // uploadAssignment() {
+  //   const uploadedAssignment: UploadedAssignment = {
+  //     filePath: this.inputFilePath,
+  //     assignmentId: this.selectedUploadAssignment.assignmentId,
+  //     uploadDate: new Date(),
+  //     uploadUser: this.userId
+  //   };
+  //   this.assignmentService.uploadAssignments(uploadedAssignment).subscribe((res) => {
+  //     this.inputFilePath = "";
+  //     this.selectedUploadAssignment = undefined;
+  //     this.closePopup();
+  //     this.message1 = [
+  //       { severity: 'success', summary: 'Filepath Uploaded Successfully', detail: '' }];
+  //   });
+  // }
 
 }
 

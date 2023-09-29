@@ -38,6 +38,10 @@ export class UserService {
     return this.httpClient.get<User[]>(this.url + "/users/roles/R02")
     
   }
+  getAllStudents(): Observable<User[]> {
+    return this.httpClient.get<User[]>(this.url + "/users/roles/R03")
+    
+  }
 
  
   

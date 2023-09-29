@@ -158,3 +158,30 @@ input {
   width: 100%;
   justify-content: space-between;
 }
+
+.student-details {
+  border: 2px solid #7a98b8; 
+  padding: 20px; 
+  margin-top: 20px; 
+  background-color: #f5f5f5; 
+  border-radius: 5px; 
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
+}
+
+.student-details h1 {
+  color: #007bff; 
+  font-size: 24px; 
+  margin-bottom: 10px; 
+}
+
+.student-details p {
+  font-size: 16px; 
+  margin: 5px 0; 
+}
+
+.student-details strong {
+  display: inline-block;
+  font-weight: bold; 
+  text-align: left;
+  margin-right: 10px;
+}
