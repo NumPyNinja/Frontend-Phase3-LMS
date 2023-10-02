@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Login } from './login';
 import { LoginService } from './login.service';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -47,17 +48,28 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  async onSubmit() {
+ // async onSubmit() {
+  onSubmit() {
     if (this.form.valid) {
       const user = {
         userLoginEmailId: this.form.value.userLoginEmailId,
         password: this.form.value.password
       };
-      this.authService.login(user);
-    }
-    this.formSubmitAttempt = true;
-    this.validateCredentials();
+     // this.authService.login(user);
+     this.authService.login(user)
+     .pipe(first())
+     .subscribe(
+         data => {
+            this.formSubmitAttempt = true;
+         },
+         error => {
+          this.showErrorMessage = true;
+         });
+    
+    //this.formSubmitAttempt = true;
+    //this.validateCredentials();
   }
+}
 
   private validateCredentials() {
 
