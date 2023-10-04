@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Login } from '../login/login';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,9 @@ export class AuthService {
     private router: Router,
     private http: HttpClient
   ) {}
+
+  /**
+  
   login(login: Login) {
     this.http.post<any>(this.url+'/login', login).subscribe(
       (response) => {
@@ -35,6 +39,28 @@ export class AuthService {
       }
     );
   }
+
+  * */
+
+  login(login: Login) {
+    return this.http.post<any>(this.url+'/login', login)
+    .pipe(map(response => {
+        const token = response.token;
+        this.loggedIn.next(true);
+        this.loggedInUserSubject.next(login.userLoginEmailId);
+        localStorage.setItem('token', token);
+        this.router.navigate(['/']);
+        //return response;
+
+      },
+      (error) => {
+        this.loggedIn.next(false);
+        this.router.navigate(['/login']);
+      }));
+  }
+
+
+  
   // isAuthenticated(): boolean {
   //   const token = localStorage.getItem('token');
   //   console.log(token);
