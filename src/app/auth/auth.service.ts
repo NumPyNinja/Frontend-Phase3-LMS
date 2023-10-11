@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../login/login';
 import { map } from 'rxjs/operators';
 
@@ -66,7 +66,16 @@ export class AuthService {
   //   console.log(token);
   //   return token !== null;
   // }
-  
+  resetPassword(resetDto: Login, token: any): Observable<any> {
+    console.log(token)
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + token, 
+      'Content-Type': 'application/json' 
+    });
+    const newPasswordJson = typeof resetDto === 'object' ? JSON.stringify(resetDto) : resetDto;
+    return this.http.post(this.url+'/resetPassowrd',newPasswordJson,{ headers: headers });
+  }
+ 
   logout() {
     this.loggedIn.next(false);
     localStorage.removeItem('token');
