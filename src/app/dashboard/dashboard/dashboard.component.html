@@ -16,7 +16,15 @@
                 </mat-grid-tile>
                 <mat-grid-tile >
                     <div rowspan="1" colspan="1">
-                        <div>
+                        <div> 
+                            <canvas baseChart style="width:320px" 
+                                [datasets]="barChartData"
+                                [labels]="barChartLabels"
+                                [options]="barChartOptions"
+                                [plugins]="barChartPlugins"
+                                [legend]="barChartLegend"
+                                [chartType]="barChartType">
+                            </canvas>
                          </div>
                     </div>
 
