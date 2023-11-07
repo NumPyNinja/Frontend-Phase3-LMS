@@ -121,8 +121,9 @@
 
         <div class="p-field">
             <label for="programName">Program Name</label>
-            <p-dropdown [options]="programList" [(ngModel)]="batch.programName" placeholder="Select a Program name" id="programName"
-                editable="true" optionLabel="programName" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="programList" [(ngModel)]="batch.programName" required placeholder="Select a Program name" id="programName" 
+            [disabled]="onEdit" editable="true" optionLabel="programName" [showClear]="true"></p-dropdown>
+                <small class="p-invalid" *ngIf="submitted && !batch.programName">Program Name is required.</small>
         </div>
 
         <div class="radio">

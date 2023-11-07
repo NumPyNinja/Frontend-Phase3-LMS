@@ -31,12 +31,14 @@ export class BatchComponent implements OnInit {
   programName: string;
   status: string[] = ['ACTIVE', 'INACTIVE'];
   programList: Program[];
+  onEdit : boolean = false;
   constructor(
     private batchService: BatchService,
     private programService: ProgramService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) { }
+
 
 
   ngOnInit() {
@@ -47,10 +49,10 @@ export class BatchComponent implements OnInit {
     this.programService.getPrograms().subscribe(list => {
       this.programList = list;
     });
-
-
   }
+
   openNew() {
+    this.onEdit=false;
     this.batch = {};
     this.submitted = false;
     this.batchDialogue = true;
@@ -62,12 +64,12 @@ export class BatchComponent implements OnInit {
   saveBatch(): void {
     this.submitted = true;
 
-    if (this.batch.batchName.trim()) {
+    if (this.batch.batchName.trim()) { //Edit batch
 
-      const pro: any = this.batch.programName;
-      const pro1: any = this.batch.programId;
-      this.batch.programId = pro.programId;
-      this.batch.programName = pro.programName;
+      //const pro: any = this.batch.programName;
+      //const pro1: any = this.batch.programId;
+      //this.batch.programId = pro.programId;
+      //this.batch.programName = pro.programName;
 
 
       //edit batch
@@ -79,18 +81,19 @@ export class BatchComponent implements OnInit {
           detail: 'batch Updated',
           life: 3000,
         });
-        this.batch.programName = pro.programName;
-        this.batch.programId = pro1;
+        //this.batch.programName = pro.programName;
+        //this.batch.programId = pro1;
         this.batchService.updateBatch(this.batch).subscribe((res) => {
           console.log('a batch is updated')
         });
 
-      } else {
-
+      } else { //create New Batch
 
         // add a new batch
+        const pro: any = this.batch.programName;
         this.programSize = this.programSize + 1;
         this.batch.programName = pro.programName;
+        this.batch.programId=pro.programId;
         this.batchService.addBatch(this.batch).subscribe((res) => {
           this.messageService.add({
             severity: 'success',
@@ -139,6 +142,7 @@ export class BatchComponent implements OnInit {
 
 
   editBatch(batch: Batch) {
+    this.onEdit=true;
     // this.programName =pro;
     this.batch = { ...batch };
     this.batchDialogue = true;
