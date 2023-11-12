@@ -35,7 +35,7 @@ export class SessionComponent implements OnInit {
   sessionSize: number;
   visibility: boolean = false;
   batchId: number;
-  batchList: Batch[] = [];
+  batchList: Batch[];
   csId: string;
   userList: User[] = [];
   userId: string;
