@@ -73,8 +73,7 @@
                         <td (click)="onRowClicked(mytemplateSession,session)">{{findBatchName(session.batchId)}}</td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{session.classTopic}}</td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDescription}}</td>
-                        <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDate | date:'shortDate'}}
-                        </td>
+                        <td (click)="onRowClicked(mytemplateSession,session)">{{session.classDate | date:'shortDate'}}</td>
                         <td (click)="onRowClicked(mytemplateSession,session)">{{findStaffName(session.classStaffId)}}
                         </td>
                         <td>
@@ -105,14 +104,12 @@
 <p-dialog [(visible)]="sessionDialogue" [style]="{width: '450px'}" header="Class Details" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
-
-
         <div class="p-field">
-            <label for="batchId">Batch Id</label>
+            <label for="batchId">Batch Name</label>
             <!-- <input type="text" id="batchId" pInputText [(ngModel)]="session.batchId" required autofocus
                      />-->
-            <p-dropdown [options]="batchList" [(ngModel)]="session.batchId" placeholder="Select a Batch Id" id="batchId"
-                editable="true" optionLabel="batchId" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="batchList" [(ngModel)]="session.batchId" placeholder="Select a Batch Name" id="batchId"
+                 [showClear]="true" optionLabel="batchName" [optionValue]="batchId"></p-dropdown>
         </div>
         <div class="p-field">
             <label for="classNo">No of Classes</label>
